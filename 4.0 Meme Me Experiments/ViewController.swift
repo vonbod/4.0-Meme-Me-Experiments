@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPopoverPresentationControllerDelegate {
 
 	// Struct that holds the memeData
 	struct MemeData {
@@ -200,9 +200,11 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 		let memedImage = generateMemedImage()
 		let controller = UIActivityViewController(activityItems: [memedImage], applicationActivities: nil)
 
+		// On iPad UIActivityViewController is presented with a popover
+		controller.popoverPresentationController?.sourceView = self.view
+		//controller.popoverPresentationController?.sourceRect = sender.frame
 		
-		present(controller, animated: true, completion: nil )
-		
+		self.present(controller, animated: true, completion: nil )
 		controller.completionWithItemsHandler = { (activityType, completed, returnedItems, activityError) -> Void in
 			if (completed) {
 				self.saveMeme(memedImage: memedImage)
