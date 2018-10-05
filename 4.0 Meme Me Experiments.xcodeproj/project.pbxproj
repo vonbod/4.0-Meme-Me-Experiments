@@ -12,6 +12,7 @@
 		86896A52215F68D600FE1A31 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86896A50215F68D600FE1A31 /* Main.storyboard */; };
 		86896A54215F68D800FE1A31 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 86896A53215F68D800FE1A31 /* Assets.xcassets */; };
 		86896A57215F68D800FE1A31 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 86896A55215F68D800FE1A31 /* LaunchScreen.storyboard */; };
+		86896A5F2164C32E00FE1A31 /* MemeTextFieldsDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86896A5E2164C32E00FE1A31 /* MemeTextFieldsDelegate.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		86896A53215F68D800FE1A31 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		86896A56215F68D800FE1A31 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		86896A58215F68D800FE1A31 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		86896A5E2164C32E00FE1A31 /* MemeTextFieldsDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemeTextFieldsDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -60,6 +62,7 @@
 				86896A53215F68D800FE1A31 /* Assets.xcassets */,
 				86896A55215F68D800FE1A31 /* LaunchScreen.storyboard */,
 				86896A58215F68D800FE1A31 /* Info.plist */,
+				86896A5E2164C32E00FE1A31 /* MemeTextFieldsDelegate.swift */,
 			);
 			path = "4.0 Meme Me Experiments";
 			sourceTree = "<group>";
@@ -137,6 +140,7 @@
 			files = (
 				86896A4F215F68D600FE1A31 /* ViewController.swift in Sources */,
 				86896A4D215F68D600FE1A31 /* AppDelegate.swift in Sources */,
+				86896A5F2164C32E00FE1A31 /* MemeTextFieldsDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
