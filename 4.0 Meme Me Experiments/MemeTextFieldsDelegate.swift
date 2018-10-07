@@ -20,6 +20,7 @@ class MemeTextFieldsDelegate : NSObject, UITextFieldDelegate {
 	// Hide keyboard when done editing
 	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
 		textField.resignFirstResponder() /* NOT SURE: KeyboardDismiss works with/out this line of code */
+		
 		return true
 	}
 }

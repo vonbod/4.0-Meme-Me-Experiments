@@ -8,16 +8,26 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UIPopoverPresentationControllerDelegate {
+/* Review comments:
+I am not sure what is menat by "create the struct on a dedicated file"  as far as I understand,
+If created outside the class scope it should be visible for other clases to use, am I right?
+*/
+struct MemeData {   // Struct that holds the memeData
+	let textTop : String?
+	let textBottom : String?
+	let originalImage : UIImage?
+	let memedImage : UIImage?
+}
 
-	// Struct that holds the memeData
-	struct MemeData {
-		let textTop : String?
-		let textBottom : String?
-		let originalImage : UIImage?
-		let memedImage : UIImage?
-	}
+class CreateMemeVC: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
 	
+	// TextField Properties(styles): Dictionary for Textformat
+	let memeTextAttributes:[NSAttributedString.Key: Any] = [
+		NSAttributedString.Key(rawValue: NSAttributedString.Key.strokeColor.rawValue): UIColor.black,
+		NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): UIColor.white,
+		NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
+		NSAttributedString.Key(rawValue: NSAttributedString.Key.strokeWidth.rawValue): -2.0]
+
 	// MARK: OUTLETS Config
 	@IBOutlet weak var imagePickerView: UIImageView!
 	@IBOutlet weak var textOne: UITextField!
@@ -27,65 +37,96 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 	@IBOutlet weak var bottomToolbar: UIToolbar!
 	@IBOutlet weak var shareButton: UIBarButtonItem!
 	
+	// Not needed anymore since UITextField Delegate has been moved to this class and is not external anymore.
 	// MARK: DELEGATE External delegate for textfields
-	let memeTextFieldsDelegate = MemeTextFieldsDelegate()
+	//let memeTextFieldsDelegate = MemeTextFieldsDelegate()
 	
 	// MARK: OVERRIDE Functions
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		//Configure the nessesary properties of the textFields
 		self.configureUI()
-	}
-	
-	override func viewWillAppear(_ animated: Bool) {
-		super.viewWillAppear(animated)
-		
-		//navigationController?.setToolbarHidden(true, animated: true)
 		
 		// Check if the device the App is running on has a camara and enable/disable the toolbar Button accordingly
 		let hasCamara = UIImagePickerController.isSourceTypeAvailable(.camera)
 		self.camaraButton.isEnabled = hasCamara
+	}
+	
+	//MARK: ViewWillAppear()
+	override func viewWillAppear(_ animated: Bool) {
+		super.viewWillAppear(animated)
 		self.subscribeToKeyboardNotifications()
 	}
 	
+	//Mark: ViewWillDisappear()
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
 		self.unsubscribeFromKeyboardNotifications()
 	}
 	
+	//MARK: UITextFieldDelegate Methods
+	// Prepare textField for new entry
+	func textFieldDidBeginEditing(_ textField: UITextField) {
+		textField.text = ""
+		textField.placeholder = ""
+		textField.becomeFirstResponder()  /* Keyboard: Works with and without this line */
+		if textField == textTwo {
+			// Udacity class didn't mention the textfield placeholder property. Instead of implementing the textFieldDidBeginEditing use the
+			// placeholder property and that method code is not necessary.
+			// --> I know and I used that property but I think setting it manually is cleaner that using the placeholder.
+			
+			// When leaving textTwo with tab, the App looses track of screenpositions.
+			// Need to catch the tab-key pressed evetn here and just make textTwo resign as a first responder
+		}
+	}
+	
+	// What happens when you press Enter:
+	func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+		if textField == textOne {
+			textOne.resignFirstResponder()
+			textTwo.becomeFirstResponder()
+		} else {
+			textField.resignFirstResponder()
+		}
+		return true
+	}
+	/* note for the tutor:
+	How do I catch the Tab key event pressed? Explanation: When using a hardware keyboard on the simulator
+	I have a tab key which the iOS Keyboard doesn't have. Now, if you exit the Bottom Textfield with tab, the
+	App seems to lose track of screenpositions and the sliding the view up/down goes wrong. I would like to
+	catch the Tabkexpressed event and prevent caos from happening. There seems to be no method that concerns
+	itself with this problem though, on stackoverflow I cann see that this is a common problem. Any hints on
+	how I can solve this?
+	*/
+	
+	
 	// MARK: Configure UserInterface */
 	func configureUI() {
 		// Give the textfield their delegate: self if UITextFieldDelegate within ViewController
-		self.textOne.delegate = memeTextFieldsDelegate
-		self.textTwo.delegate = memeTextFieldsDelegate
 		
 		// or in Storyboard with the placeholder property.
-		self.textOne.text = "Pick a pic..."
-		self.textOne.isHidden = false
+		self.textOne.text = "TOP"
 		self.textTwo.text = "BOTTOM"
+		self.textOne.isHidden = false
+		self.textTwo.isHidden = false
 		
-		// Dictionary for Textformat
-		let memeTextAttributes:[NSAttributedString.Key: Any] = [
-			NSAttributedString.Key(rawValue: NSAttributedString.Key.strokeColor.rawValue): UIColor.black,
-			NSAttributedString.Key(rawValue: NSAttributedString.Key.foregroundColor.rawValue): UIColor.white,
-			NSAttributedString.Key(rawValue: NSAttributedString.Key.font.rawValue): UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
-			NSAttributedString.Key(rawValue: NSAttributedString.Key.strokeWidth.rawValue): -2.0]
-		
-		self.textOne.defaultTextAttributes = memeTextAttributes
-		self.textTwo.defaultTextAttributes = memeTextAttributes
-		self.textOne.textAlignment = .center
-		self.textTwo.textAlignment = .center
-		self.textOne.autocapitalizationType = .allCharacters
+		// Call method to set styles for textFields
+		setTextFieldProperties(toTextField: textOne)
+		setTextFieldProperties(toTextField: textTwo)
 		
 		self.shareButton.isEnabled = false
-		/* Comment for tutor:
-		The autocapitalizationType setting is not working when
-		deploying the project to the iPad. All charachters entered
-		are minucular. It does work fine in the simulator though.
-		It is also set to ALL Caps in the Storyboard.
-		*/
 	}
 
+	// Layout styles for the textfields used in the Meme
+	func setTextFieldProperties(toTextField textField: UITextField) {
+		textField.defaultTextAttributes = memeTextAttributes
+		textField.textAlignment = .center
+		textField.autocapitalizationType = .allCharacters
+		textField.delegate = self
+		
+		/* Comment to tutor: textField.autocapitalizationType = .allCharacters doesn't work on iPpad, why? */
+	}
+	
 	// imagePickerController: User selected picture
 	func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
 		// UIImagePickerController.InfoKey.originalImage contains image selected by the picker
@@ -95,8 +136,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 			
 			// After chosing the picker can be removed to display the image
 			dismissForm()
-			self.textOne.text = "TOP"
-			self.textTwo.isHidden = false
 			// when imagePickerView has an image we can enable the share buttom
 			self.shareButton.isEnabled = true
 		}
@@ -115,8 +154,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 	// MARK: generateMemedImage() & SAVE
 	/* Generate the memData that ca be saved */
 	func generateMemedImage() -> UIImage {  /* Provide by UDACITY */
-		self.bottomToolbar.isHidden = true
-		self.topToolbar.isHidden = true
+
+		// hide the toolbars so we don't see them in the picture
+		self.hideToolBars(toHide: true)
 		
 		// Render view to an image
 		UIGraphicsBeginImageContext(self.view.frame.size)
@@ -124,9 +164,21 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 		let memedImage: UIImage = UIGraphicsGetImageFromCurrentImageContext()!
 		UIGraphicsEndImageContext()
 		
-		self.bottomToolbar.isHidden = false
-		self.topToolbar.isHidden = false
+		// unhide the toolbars to use the App
+		self.hideToolBars(toHide: false)
+
 		return memedImage
+	}
+	
+	// Hide the Tool and Navigation bars
+	func hideToolBars(toHide hide: Bool) {
+		if hide {
+			self.topToolbar.isHidden = true
+			self.bottomToolbar.isHidden = true
+		} else {
+			self.topToolbar.isHidden = false
+			self .bottomToolbar.isHidden = false
+		}
 	}
 	
 	// Save the image
@@ -174,10 +226,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 	
 	// MARK: IBAction for Image from Library
 	@IBAction func pickAnImageFromAlbum(_ sender: Any) {  /* Image from Library */
-		let imagePicker = UIImagePickerController()
-		imagePicker.delegate = self
-		imagePicker.sourceType = .photoLibrary
-		present(imagePicker, animated: true, completion: nil)
+		openImagePicker(.photoLibrary)
 		/* Note to myself:
 			SET NSPhotoLibraryUsageDescription:
 			“Privacy - Photo Library Usage Description” in Info.plist
@@ -185,15 +234,21 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 	}
 
 	@IBAction func pickImageFromCamara(_ sender: Any) {   /* Image from Camera */
-		let imagePicker = UIImagePickerController()
-		imagePicker.delegate = self
-		imagePicker.sourceType = .camera
-		present(imagePicker, animated: true, completion: nil)
+		openImagePicker(.camera)
 		/* Note to myself:
 			SET NSCameraUsageDescription:
 			“Privacy - Camera Usage Description” in Info.plist
 		*/
 	}
+	
+	//MARK: openImagePicker from different sources: .camera, .library
+	func openImagePicker(_ type: UIImagePickerController.SourceType){
+		let imagePicker = UIImagePickerController()
+		imagePicker.delegate = self
+		imagePicker.sourceType = type
+		present(imagePicker, animated: true, completion: nil)
+	}
+	
 	
 	// Share the meme and save it.
 	@IBAction func shareMeme(_ sender: Any) {
@@ -202,7 +257,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
 		// On iPad UIActivityViewController is presented with a popover
 		controller.popoverPresentationController?.sourceView = self.view
-		//controller.popoverPresentationController?.sourceRect = sender.frame
+		//controller.popoverPresentationController?.sourceRect = topToolbar.barPosition
 		
 		self.present(controller, animated: true, completion: nil )
 		controller.completionWithItemsHandler = { (activityType, completed, returnedItems, activityError) -> Void in
@@ -217,8 +272,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 	
 	@IBAction func cancelApp(_ sender: Any) {
 		self.imagePickerView.image = nil
-		self.textOne.text = "Pick a pic..."
-		self.textTwo.isHidden = true
 		self.configureUI()
 	}
 }
