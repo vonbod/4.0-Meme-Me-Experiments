@@ -18,16 +18,16 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MmA-vg-ftO">
-                                <rect key="frame" x="16" y="64" width="343" height="559"/>
+                                <rect key="frame" x="0.0" y="64" width="375" height="559"/>
                             </imageView>
                             <textField hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="TOP" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="sqR-o4-KLF">
-                                <rect key="frame" x="27" y="90" width="320" height="48"/>
+                                <rect key="frame" x="16" y="80" width="343" height="48"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="40"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
                             </textField>
                             <textField hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Bottom" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LjF-YB-4Ah">
-                                <rect key="frame" x="27" y="537" width="320" height="48"/>
+                                <rect key="frame" x="16" y="559" width="343" height="48"/>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="40"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="allCharacters"/>
@@ -72,22 +72,22 @@
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="MmA-vg-ftO" firstAttribute="top" secondItem="cja-NI-AYy" secondAttribute="bottom" id="3ch-5X-8Jf"/>
-                            <constraint firstItem="LjF-YB-4Ah" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="27" id="8WJ-NK-Ga4"/>
                             <constraint firstItem="0Ns-9K-8xQ" firstAttribute="top" secondItem="MmA-vg-ftO" secondAttribute="bottom" id="BGR-yv-GWi"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="sqR-o4-KLF" secondAttribute="trailing" constant="16" id="Gop-mK-jOK"/>
                             <constraint firstItem="0Ns-9K-8xQ" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="Hcl-xx-vqn"/>
                             <constraint firstItem="cja-NI-AYy" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="V8N-up-wOH"/>
+                            <constraint firstItem="sqR-o4-KLF" firstAttribute="top" secondItem="cja-NI-AYy" secondAttribute="bottom" constant="16" id="aQP-Z9-9E4"/>
                             <constraint firstItem="cja-NI-AYy" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="amj-dk-Pte"/>
-                            <constraint firstItem="sqR-o4-KLF" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="27" id="dOP-JG-AML"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="sqR-o4-KLF" secondAttribute="trailing" constant="28" id="dnX-Ph-Wxx"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="MmA-vg-ftO" secondAttribute="trailing" id="ax0-FP-YqO"/>
+                            <constraint firstItem="sqR-o4-KLF" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="bOC-Eh-mEZ"/>
                             <constraint firstItem="0Ns-9K-8xQ" firstAttribute="top" secondItem="MmA-vg-ftO" secondAttribute="bottom" id="fSr-rC-Bp5"/>
                             <constraint firstItem="cja-NI-AYy" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="iiA-Pe-XBy"/>
-                            <constraint firstItem="MmA-vg-ftO" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="oTh-rc-gzt"/>
+                            <constraint firstItem="MmA-vg-ftO" firstAttribute="leading" secondItem="cja-NI-AYy" secondAttribute="leading" id="iki-OX-JPs"/>
+                            <constraint firstItem="0Ns-9K-8xQ" firstAttribute="top" secondItem="LjF-YB-4Ah" secondAttribute="bottom" constant="16" id="l5w-gO-uhS"/>
                             <constraint firstItem="0Ns-9K-8xQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="peV-ha-RC9"/>
-                            <constraint firstItem="0Ns-9K-8xQ" firstAttribute="top" secondItem="LjF-YB-4Ah" secondAttribute="bottom" constant="38" id="qLz-Y5-KPZ"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="LjF-YB-4Ah" secondAttribute="trailing" constant="28" id="suZ-Z8-E1o"/>
                             <constraint firstItem="0Ns-9K-8xQ" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="ucF-Fx-Anl"/>
-                            <constraint firstItem="sqR-o4-KLF" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="70" id="uqK-fG-Um1"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="MmA-vg-ftO" secondAttribute="trailing" constant="16" id="v41-j9-8vM"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="LjF-YB-4Ah" secondAttribute="trailing" constant="16" id="vY4-Ti-yEk"/>
+                            <constraint firstItem="LjF-YB-4Ah" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="16" id="zC2-oT-csT"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
