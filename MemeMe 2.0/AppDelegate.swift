@@ -12,10 +12,15 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	var window: UIWindow?
+	// #MemeMe 2.0 Addons###
+	//
+	var memes = [MemeData]()
 
-
-	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
 		// Override point for customization after application launch.
+		
+		
+		//UINavigationBar.appearance().titleTextAttributes
 		return true
 	}
 

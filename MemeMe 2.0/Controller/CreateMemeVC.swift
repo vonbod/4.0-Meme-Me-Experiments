@@ -104,6 +104,8 @@ class CreateMemeVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
 	func configureUI() {
 		// Give the textfield their delegate: self if UITextFieldDelegate within ViewController
 		
+		//self.navigationController?.isToolbarHidden = true
+		
 		// or in Storyboard with the placeholder property.
 		self.textOne.text = "TOP"
 		self.textTwo.text = "BOTTOM"
@@ -179,14 +181,6 @@ class CreateMemeVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
 			self.topToolbar.isHidden = false
 			self .bottomToolbar.isHidden = false
 		}
-	}
-	
-	// Save the image
-	func saveMeme(memedImage: UIImage) {
-		/* I am not sure why I have to create and/or use the struct.  */
-		let meme = MemeData(textTop: textOne.text, textBottom: textTwo.text, originalImage: imagePickerView.image, memedImage: memedImage)
-		
-		// code for actual saving is not implemented
 	}
 	
 	//MARK: Notification subscriptions
@@ -270,8 +264,20 @@ class CreateMemeVC: UIViewController, UIImagePickerControllerDelegate, UINavigat
 		}
 	}
 	
+	// Save the image
+	func saveMeme(memedImage: UIImage) {
+		/* I am not sure why I have to create and/or use the struct.  */
+		let meme = MemeData(textTop: textOne.text, textBottom: textTwo.text, originalImage: imagePickerView.image, memedImage: memedImage)
+		
+		// #MemeMe 2.0 Addons###
+		let object = UIApplication.shared.delegate
+		let appDelegate = object as! AppDelegate
+		appDelegate.memes.append(meme)
+	}
+	
 	@IBAction func cancelApp(_ sender: Any) {
-		self.imagePickerView.image = nil
-		self.configureUI()
+		self.dismiss(animated: true, completion: nil)
+		//		self.imagePickerView.image = nil
+		//		self.configureUI()
 	}
 }
